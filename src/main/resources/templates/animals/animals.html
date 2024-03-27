@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animals</title>
+</head>
+<body>
+<div class="container">
+    <header th:insert="~{blocks/header :: header}"></header>
+    <h2>База животных</h2>
+    <a class="nav-item nav-link" th:href="@{/animals/dogs}">Собаки</a>
+    <a class="nav-item nav-link" th:href="@{/animals/birds}">Птицы</a>
+    <!--    <table class="table">-->
+    <!--        <thead class="table-header">-->
+    <!--        <th scope="col">Тип</th>-->
+    <!--        <th scope="col">Имя</th>-->
+    <!--        <th scope="col">Параметр</th>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        <tr th:each="animal: ${animals}">-->
+    <!--            <td th:text="${animal.type}"></td>-->
+    <!--            <td th:text="${animal.name}"></td>-->
+    <!--            <td th:text="${animal.speed}"></td>-->
+    <!--        </tr>-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+</div>
+</body>
+</html>

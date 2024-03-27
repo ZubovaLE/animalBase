@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dogs</title>
+</head>
+<body>
+<div class="container">
+    <h2>Собаки</h2>
+    <table class="table">
+        <thead class="table-header">
+        <th scope="col">Имя</th>
+        <th scope="col">Параметр</th>
+        </thead>
+        <tbody>
+        <tr th:each="dog: ${dogs}">
+            <td th:text="${dog.name}"></td>
+            <td th:text="${dog.speed}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
