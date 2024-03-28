@@ -20,8 +20,9 @@ public abstract class Animal {
     @Getter
     @RequiredArgsConstructor
     public enum AnimalType {
-        BIRD("птица"),
-        DOG("собака");
-        private final String desc;
+        BIRD("Птица"),
+        DOG("Собака");
+
+        private final String description;
     }
 }

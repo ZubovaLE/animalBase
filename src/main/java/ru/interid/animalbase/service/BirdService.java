@@ -2,6 +2,7 @@ package ru.interid.animalbase.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.interid.animalbase.mapper.dto.AnimalDto;
 import ru.interid.animalbase.model.Animal;
 import ru.interid.animalbase.model.Bird;
 import ru.interid.animalbase.repository.BirdRepository;
@@ -12,15 +13,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BirdService implements AnimalService<Bird> {
     private final BirdRepository birdRepository;
-
-    @Override
-    public void addAll(List<Bird> animals) {
-        birdRepository.saveAll(animals);
-    }
+    private final BirdMapper birdMapper;
 
     @Override
     public Animal.AnimalType getType() {
         return Animal.AnimalType.BIRD;
+    }
+
+    @Override
+    public Bird buildAnimal(AnimalDto dto) {
+        return birdMapper.toEntity(dto);
+    }
+
+    @Override
+    public void addAll(List<? extends Animal> animals) {
+        birdRepository.saveAll((List<Bird>) animals);
     }
 
     @Override

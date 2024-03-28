@@ -11,7 +11,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "dogs")
 public class Dog extends Animal {
-
     @Column(name = "run_speed")
     private String runSpeed;
+
+    public Dog() {
+    }
+
+    public Dog(Long id, String name, String runSpeed) {
+        super(id, name);
+        this.runSpeed = runSpeed;
+    }
 }
