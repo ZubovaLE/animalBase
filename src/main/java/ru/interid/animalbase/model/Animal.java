@@ -3,11 +3,11 @@ package ru.interid.animalbase.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity
+@MappedSuperclass
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class Animal {
     @Id
     @Column(name = "id")

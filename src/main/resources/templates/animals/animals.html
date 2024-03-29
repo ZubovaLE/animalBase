@@ -2,28 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+
     <title>Animals</title>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <header th:insert="~{blocks/header :: header}"></header>
-    <h2>База животных</h2>
-    <a class="nav-item nav-link" th:href="@{/animals/dogs}">Собаки</a>
-    <a class="nav-item nav-link" th:href="@{/animals/birds}">Птицы</a>
-    <!--    <table class="table">-->
-    <!--        <thead class="table-header">-->
-    <!--        <th scope="col">Тип</th>-->
-    <!--        <th scope="col">Имя</th>-->
-    <!--        <th scope="col">Параметр</th>-->
-    <!--        </thead>-->
-    <!--        <tbody>-->
-    <!--        <tr th:each="animal: ${animals}">-->
-    <!--            <td th:text="${animal.type}"></td>-->
-    <!--            <td th:text="${animal.name}"></td>-->
-    <!--            <td th:text="${animal.speed}"></td>-->
-    <!--        </tr>-->
-    <!--        </tbody>-->
-    <!--    </table>-->
+    <div class="card">
+        <div class="card-body">
+            <h3>Животные</h3>
+            <div class="navbar-nav nav-list">
+                <a class="nav-item nav-link" th:href="@{/animals/dogs}">Собаки</a>
+                <a class="nav-item nav-link" th:href="@{/animals/birds}">Птицы</a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

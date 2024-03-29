@@ -1,9 +1,8 @@
 package ru.interid.animalbase.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -12,12 +11,10 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "birds")
+@NoArgsConstructor
 public class Bird extends Animal {
     @Column(name = "flight_speed")
     private BigDecimal flightSpeed;
-
-    public Bird() {
-    }
 
     public Bird(Long id, String name, BigDecimal flightSpeed) {
         super(id, name);
