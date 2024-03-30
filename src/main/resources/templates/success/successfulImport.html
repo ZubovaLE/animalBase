@@ -15,10 +15,16 @@
 </head>
 <body>
 <div class="container-fluid">
-    <h2>Животные успешно добавлены в базу данных!</h2>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="/">На главную</a>
-        <a class="btn btn-primary" th:href="@{/animals/import}">Добавить ещё</a>
+    <div class="card">
+        <div class="card-body">
+            <h2 th:text="${successMessage}"></h2>
+            <div class="row">
+                <div class="card-link"><a class="btn btn-primary" href="/">На главную</a></div>
+                <div class="card-link">
+                    <a class="btn btn-primary" th:href="@{/animals/import}">Добавить ещё</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

@@ -3,6 +3,8 @@ package ru.interid.animalbase.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Arrays;
+
 @Getter
 @Setter
 @MappedSuperclass
@@ -24,5 +26,12 @@ public abstract class Animal {
         DOG("Собака");
 
         private final String description;
+
+        public static AnimalType getTypeByDescription(String desc) {
+            return Arrays.stream(values())
+                    .filter(t -> t.description.equals(desc))
+                    .findFirst()
+                    .orElse(null);
+        }
     }
 }

@@ -19,13 +19,15 @@ public class MassLoadService {
         this.services = services.stream().collect(Collectors.toMap(AnimalService::getType, Function.identity()));
     }
 
-    public void addAll(Map<Animal.AnimalType, List<AnimalDto>> animalDtosByType) {
-        animalDtosByType.forEach(
-                (type, dtos) -> services.get(type).addAll(
-                        dtos.stream()
-                                .map(dto -> services.get(type).buildAnimal(dto))
-                                .toList()
-                )
-        );
+    public void addAll(List<AnimalDto> animalDtosByType) {
+        animalDtosByType.stream()
+                .collect(Collectors.groupingBy(AnimalDto::getAnimalType))
+                .forEach(
+                        (type, dtos) -> services.get(type).addAll(
+                                dtos.stream()
+                                        .map(dto -> services.get(type).buildAnimal(dto))
+                                        .toList()
+                        )
+                );
     }
 }
