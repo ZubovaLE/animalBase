@@ -1,5 +1,6 @@
 package ru.interid.animalbase.mapper;
 
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,19 +17,20 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Service
 public class AnimalExcelParserService {
     public static final String[] HEADERS = {"Тип", "Имя", "Параметр"};
+    public static final int REQUIRED_NUMBER_OF_SHEETS = 1;
 
     public MassLoadAnimalData parseExcelDocument(MultipartFile file) {
         MassLoadAnimalData data = new MassLoadAnimalData();
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(new ByteArrayInputStream(file.getBytes()));
-            if (workbook.getNumberOfSheets() != 1) {
-                data.setErrorFormatDocumentDescription("ошибка на количество листов");
+            if (workbook.getNumberOfSheets() != REQUIRED_NUMBER_OF_SHEETS) {
+                data.setDocumentFormatErrorDescription("Превышено требуемое количество листов в документе.");
                 return data;
             }
             XSSFSheet sheet = workbook.getSheetAt(0);
-            String errorDescription = cheekValidHeaders(sheet.getRow(0));
+            String errorDescription = checkTableHeaderValidity(sheet.getRow(0));
             if (isNotBlank(errorDescription)) {
-                data.setErrorFormatDocumentDescription(errorDescription);
+                data.setDocumentFormatErrorDescription(errorDescription);
                 return data;
             }
 
@@ -47,14 +49,15 @@ public class AnimalExcelParserService {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NotOfficeXmlFileException e) {
+            data.setDocumentFormatErrorDescription("Некорректный формат файла");
         }
         return data;
     }
 
-    public static String cheekValidHeaders(XSSFRow rowOfHeaders) {
-        if (HEADERS.length != rowOfHeaders.getLastCellNum()) {
-            return "Количество заголовка неверно";
-
+    public static String checkTableHeaderValidity(XSSFRow rowOfHeaders) {
+        if (rowOfHeaders.getLastCellNum() != HEADERS.length || rowOfHeaders.getPhysicalNumberOfCells() != HEADERS.length) {
+            return "Некорректные столбцы";
         }
         String[] headersInDoc = new String[HEADERS.length];
         for (int i = 0; i < HEADERS.length; i++) {
@@ -62,7 +65,7 @@ public class AnimalExcelParserService {
         }
 
         if (!Arrays.equals(HEADERS, headersInDoc)) {
-            return "Последовательность заголовка неверно";
+            return "Неверные заголовки. Проверьте последовательность и/или названия заголовков";
         }
         return "";
     }

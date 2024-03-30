@@ -15,12 +15,12 @@ public class MassLoadAnimalData {
     private final List<AnimalDto> animalDtos = new ArrayList<>();
     private final List<Integer> errorRows = new ArrayList<>();
     @Setter
-    private String errorFormatDocumentDescription;
+    private String documentFormatErrorDescription;
 
     public String getErrorInfo() {
         StringJoiner sj = new StringJoiner(System.lineSeparator());
-        if (isNotBlank(errorFormatDocumentDescription)) {
-            sj.add(errorFormatDocumentDescription);
+        if (isNotBlank(documentFormatErrorDescription)) {
+            sj.add(documentFormatErrorDescription);
         }
         if (!errorRows.isEmpty()) {
             sj.add("Проверьте корректность введенных данных в следующих строках: " + errorRows);
