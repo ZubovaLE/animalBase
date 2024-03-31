@@ -9,6 +9,7 @@ import ru.interid.animalbase.model.Animal;
 import ru.interid.animalbase.model.Dog;
 import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.repository.DogRepository;
+import ru.interid.animalbase.service.animal.DogService;
 import ru.interid.animalbase.service.mapper.DogMapper;
 
 import java.util.Collections;
@@ -19,7 +20,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DogServiceTest {
-
     @InjectMocks
     private DogService dogService;
 

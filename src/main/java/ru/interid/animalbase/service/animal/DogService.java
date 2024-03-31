@@ -1,10 +1,10 @@
-package ru.interid.animalbase.service;
+package ru.interid.animalbase.service.animal;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.model.Animal;
 import ru.interid.animalbase.model.Dog;
+import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.repository.DogRepository;
 import ru.interid.animalbase.service.mapper.DogMapper;
 

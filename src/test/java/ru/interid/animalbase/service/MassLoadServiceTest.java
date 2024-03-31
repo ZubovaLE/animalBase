@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.interid.animalbase.model.Animal;
 import ru.interid.animalbase.model.dto.AnimalDto;
+import ru.interid.animalbase.service.animal.BirdService;
+import ru.interid.animalbase.service.animal.DogService;
 
 import java.util.List;
 

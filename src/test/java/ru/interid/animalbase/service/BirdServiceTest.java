@@ -9,6 +9,7 @@ import ru.interid.animalbase.model.Animal;
 import ru.interid.animalbase.model.Bird;
 import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.repository.BirdRepository;
+import ru.interid.animalbase.service.animal.BirdService;
 import ru.interid.animalbase.service.mapper.BirdMapper;
 
 import java.math.BigDecimal;

@@ -1,10 +1,8 @@
 package ru.interid.animalbase.service;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import ru.interid.animalbase.model.MassLoadAnimalData;
@@ -14,7 +12,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class AnimalExcelParserServiceTest {
     private final static AnimalExcelParserService service = new AnimalExcelParserService();
 
@@ -65,12 +62,13 @@ class AnimalExcelParserServiceTest {
         assertEquals(expectedDocumentFormatErrorDescription, data.getDocumentFormatErrorDescription());
     }
 
-    @Test
-    void WhenValidDocumentThenReturnSuccessRows() throws IOException {
+    @ParameterizedTest
+    @ValueSource(strings = {"validDocument_1.xlsx", "validDocument_2.xlsx"})
+    void WhenValidDocumentThenReturnSuccessRows(String fileName) throws IOException {
 
         // Given
-        final MultipartFile multipartFile = new MockMultipartFile("validDocument.xlsx", this.getClass().getClassLoader()
-                .getResourceAsStream("validDocument.xlsx"));
+        final MultipartFile multipartFile = new MockMultipartFile(fileName, this.getClass().getClassLoader()
+                .getResourceAsStream(fileName));
         int expectedSizeOfSuccessRows = 2;
         List<Integer> expectedSuccessRows = List.of(2, 3);
         String expectedName = "Test Dog";
@@ -93,11 +91,11 @@ class AnimalExcelParserServiceTest {
         final MultipartFile multipartFile = new MockMultipartFile("validAndInvalidCells.xlsx",
                 this.getClass().getClassLoader().getResourceAsStream("validAndInvalidCells.xlsx"));
 
-        int expectedSizeOfSuccessRows = 1;
-        int expectedSizeOfErrorsRows = 3;
+        int expectedSizeOfSuccessRows = 2;
+        int expectedSizeOfErrorsRows = 1;
 
-        List<Integer> expectedSuccessRows = List.of(2);
-        List<Integer> expectedErrorsRows = List.of(3, 4, 5);
+        List<Integer> expectedSuccessRows = List.of(2, 4);
+        List<Integer> expectedErrorsRows = List.of(3);
 
         String expectedName = "Doggy";
 
