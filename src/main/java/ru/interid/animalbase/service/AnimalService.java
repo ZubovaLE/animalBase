@@ -1,6 +1,6 @@
 package ru.interid.animalbase.service;
 
-import ru.interid.animalbase.mapper.dto.AnimalDto;
+import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.model.Animal;
 
 import java.util.List;

@@ -17,12 +17,13 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <h2 th:text="${successMessage}"></h2>
-            <div class="row">
-                <div class="card-link"><a class="btn btn-primary" href="/">На главную</a></div>
+            <h3 th:text="${successRowsMessage}"></h3>
+            <h3 th:text="${errorRowsMessage}"></h3>
+            <div class="form-row">
                 <div class="card-link">
                     <a class="btn btn-primary" th:href="@{/animals/import}">Добавить ещё</a>
                 </div>
+                <div class="card-link"><a class="btn btn-primary" href="/">На главную</a></div>
             </div>
         </div>
     </div>

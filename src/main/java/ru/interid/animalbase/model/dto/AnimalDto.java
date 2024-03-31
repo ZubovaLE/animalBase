@@ -1,6 +1,5 @@
-package ru.interid.animalbase.mapper.dto;
+package ru.interid.animalbase.model.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

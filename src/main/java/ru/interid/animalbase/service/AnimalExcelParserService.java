@@ -1,16 +1,19 @@
-package ru.interid.animalbase.mapper;
+package ru.interid.animalbase.service;
 
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.interid.animalbase.mapper.dto.AnimalDto;
+import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.model.Animal;
 import ru.interid.animalbase.model.MassLoadAnimalData;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -36,15 +39,12 @@ public class AnimalExcelParserService {
 
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 XSSFRow row = sheet.getRow(i);
-                AnimalDto dto = new AnimalDto();
-                //todo если такого параметра нет, проверить что вернёт
-                dto.setAnimalType(Animal.AnimalType.getTypeByDescription(row.getCell(0).getStringCellValue()));
-                dto.setName(row.getCell(1).getStringCellValue());
-                dto.setSpeed(String.valueOf(row.getCell(2).getNumericCellValue()));
+                AnimalDto dto = getAnimalDto(row);
                 if (dto.haveError()) {
                     data.getErrorRows().add(i + 1);
                 } else {
                     data.getAnimalDtos().add(dto);
+                    data.getSuccessRows().add(i + 1);
                 }
             }
         } catch (IOException e) {
@@ -55,18 +55,51 @@ public class AnimalExcelParserService {
         return data;
     }
 
+
     public static String checkTableHeaderValidity(XSSFRow rowOfHeaders) {
-        if (rowOfHeaders.getLastCellNum() != HEADERS.length || rowOfHeaders.getPhysicalNumberOfCells() != HEADERS.length) {
+        if (!checkColumnsValidity(rowOfHeaders)) {
             return "Некорректные столбцы";
         }
-        String[] headersInDoc = new String[HEADERS.length];
-        for (int i = 0; i < HEADERS.length; i++) {
-            headersInDoc[i] = rowOfHeaders.getCell(i).getStringCellValue();
-        }
-
+        String[] headersInDoc = getHeadersInDoc(rowOfHeaders);
         if (!Arrays.equals(HEADERS, headersInDoc)) {
-            return "Неверные заголовки. Проверьте последовательность и/или названия заголовков";
+            return "Неверные заголовки. Проверьте последовательность, название и тип заголовков";
         }
         return "";
+    }
+
+    private static boolean checkColumnsValidity(XSSFRow rowOfHeaders) {
+        return rowOfHeaders.getLastCellNum() == HEADERS.length && rowOfHeaders.getPhysicalNumberOfCells() == HEADERS.length;
+    }
+
+    private static String[] getHeadersInDoc(XSSFRow rowOfHeaders) {
+        String[] headersInDoc = new String[HEADERS.length];
+        for (int i = 0; i < HEADERS.length; i++) {
+            headersInDoc[i] = getStringCellValue(rowOfHeaders, i);
+        }
+        return headersInDoc;
+    }
+
+    private static AnimalDto getAnimalDto(XSSFRow row) {
+        AnimalDto dto = new AnimalDto();
+        dto.setAnimalType(Animal.AnimalType.getTypeByDescription(getStringCellValue(row, 0)));
+        dto.setName(getStringCellValue(row, 1));
+        dto.setSpeed(getNumericCellValue(row, 2));
+        return dto;
+    }
+
+    private static String getStringCellValue(XSSFRow row, int cellNumber) {
+        return getCellValue(row, cellNumber, CellType.STRING, Cell::getStringCellValue);
+    }
+
+    private static String getNumericCellValue(XSSFRow row, int cellNumber) {
+        return getCellValue(row, cellNumber, CellType.NUMERIC, c -> String.valueOf(c.getNumericCellValue()));
+    }
+
+    private static String getCellValue(XSSFRow row, int cellNumber, CellType requiredCellType, Function<Cell, String> supplier) {
+        Cell cell = row.getCell(cellNumber);
+        if (cell != null) {
+            return cell.getCellType().equals(requiredCellType) ? supplier.apply(cell) : null;
+        }
+        return null;
     }
 }

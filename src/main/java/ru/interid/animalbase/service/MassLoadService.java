@@ -1,10 +1,8 @@
-package ru.interid.animalbase.mapper;
+package ru.interid.animalbase.service;
 
 import org.springframework.stereotype.Service;
-import ru.interid.animalbase.mapper.dto.AnimalDto;
+import ru.interid.animalbase.model.dto.AnimalDto;
 import ru.interid.animalbase.model.Animal;
-import ru.interid.animalbase.service.AnimalService;
-
 
 import java.util.List;
 import java.util.Map;
