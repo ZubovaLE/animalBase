@@ -56,6 +56,7 @@ public class AnimalExcelParserService {
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             XSSFRow row = sheet.getRow(i);
             if (row == null) {
+                data.getErrorRows().add(i + 1);
                 continue;
             }
             AnimalDto dto = getAnimalDto(row);

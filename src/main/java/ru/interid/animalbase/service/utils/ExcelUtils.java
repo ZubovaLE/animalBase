@@ -12,7 +12,7 @@ public class ExcelUtils {
 
     public static String checkTableHeaderValidity(XSSFRow rowOfHeaders, String[] expectedHeaders) {
         if (rowOfHeaders == null) {
-            return "Необходимо заполнить названия колонок";
+            return "Необходимо заполнить заголовки столбцов";
         }
         if (!checkColumnsValidity(rowOfHeaders, getHeadersAmount(expectedHeaders))) {
             return "Некорректные столбцы";

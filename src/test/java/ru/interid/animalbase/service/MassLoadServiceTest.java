@@ -34,49 +34,54 @@ class MassLoadServiceTest {
 
     @Test
     void whenAddAllThenCallDogAndBirdServices() {
-        //Given
+        // Given
         AnimalDto birdDto = buildDto(Animal.AnimalType.BIRD, "bird", "123");
-        AnimalDto dogDto = buildDto(Animal.AnimalType.DOG, "dog", "321");
+        AnimalDto dogDtoOne = buildDto(Animal.AnimalType.DOG, "dog one", "321");
+        AnimalDto dogDtoTwo = buildDto(Animal.AnimalType.DOG, "dog two", "321");
 
-        //When
-        massLoadService.addAll(List.of(birdDto, dogDto));
+        // When
+        massLoadService.addAll(List.of(birdDto, dogDtoOne, dogDtoTwo));
 
-        //Then
+        // Then
         verify(dogService, times(1)).addAll(anyList());
-        verify(dogService, times(1)).buildAnimal(dogDto);
+        verify(dogService, times(1)).buildAnimal(dogDtoOne);
+        verify(dogService, times(1)).buildAnimal(dogDtoTwo);
         verify(birdService, times(1)).addAll(anyList());
         verify(birdService, times(1)).buildAnimal(birdDto);
         verifyNoMoreInteractions(dogService, birdService);
     }
 
     @Test
-    void whenAddAllThenCallDogServices() {
-        //Given
+    void whenAddAllWithDogTypeThenCallDogServices() {
+        // Given
         AnimalDto dogDto = buildDto(Animal.AnimalType.DOG, "dog", "321");
 
-        //When
+        // When
         massLoadService.addAll(List.of(dogDto));
 
-        //Then
+        // Then
         verify(dogService, times(1)).addAll(anyList());
         verify(dogService, times(1)).buildAnimal(dogDto);
-//        verifyNoInteractions(birdService);
-        verifyNoMoreInteractions(dogService);
+        verify(birdService, times(0)).addAll(any());
+        verify(birdService, times(0)).buildAnimal(any());
+        verifyNoMoreInteractions(dogService, birdService);
     }
 
     @Test
-    void whenAddAllThenCallBirdServices() {
-        //Given
+    void whenAddAllWithBirdTypeThenCallBirdServices() {
+
+        // Given
         AnimalDto birdDto = buildDto(Animal.AnimalType.BIRD, "bird", "123");
 
-        //When
+        // When
         massLoadService.addAll(List.of(birdDto));
 
-        //Then
+        // Then
         verify(birdService, times(1)).addAll(anyList());
         verify(birdService, times(1)).buildAnimal(birdDto);
-//        verifyNoInteractions(dogService);
-        verifyNoMoreInteractions(birdService);
+        verify(dogService, times(0)).addAll(anyList());
+        verify(dogService, times(0)).buildAnimal(any());
+        verifyNoMoreInteractions(birdService, dogService);
     }
 
     private AnimalDto buildDto(Animal.AnimalType type, String name, String speed) {

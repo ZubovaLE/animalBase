@@ -62,6 +62,21 @@ class AnimalExcelParserServiceTest {
         assertEquals(expectedDocumentFormatErrorDescription, data.getDocumentFormatErrorDescription());
     }
 
+    @Test
+    void WhenEmptyHeaderThenReturnErrorMessage() throws IOException {
+
+        // Given
+        final MultipartFile multipartFile = new MockMultipartFile("emptyHeader.xlsx", this.getClass().getClassLoader()
+                .getResourceAsStream("emptyHeader.xlsx"));
+        String expectedDocumentFormatErrorDescription = "Необходимо заполнить заголовки столбцов";
+
+        // When
+        MassLoadAnimalData data = service.parseExcelDocument(multipartFile);
+
+        // Then
+        assertEquals(expectedDocumentFormatErrorDescription, data.getDocumentFormatErrorDescription());
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"validDocument_1.xlsx", "validDocument_2.xlsx"})
     void WhenValidDocumentThenReturnSuccessRows(String fileName) throws IOException {
@@ -84,20 +99,19 @@ class AnimalExcelParserServiceTest {
         assertEquals(expectedName, data.getAnimalDtos().get(0).getName());
     }
 
-    @Test
-    void WhenInvalidCellsThenReturnSuccessRowsAndErrorRows() throws IOException {
+    @ParameterizedTest
+    @ValueSource(strings = {"validAndInvalidCells.xlsx", "emptyRow.xlsx"})
+    void WhenValidAndInvalidCellsThenReturnSuccessRowsAndErrorRows(String fileName) throws IOException {
 
         // Given
-        final MultipartFile multipartFile = new MockMultipartFile("validAndInvalidCells.xlsx",
-                this.getClass().getClassLoader().getResourceAsStream("validAndInvalidCells.xlsx"));
+        final MultipartFile multipartFile = new MockMultipartFile(fileName,
+                this.getClass().getClassLoader().getResourceAsStream(fileName));
 
         int expectedSizeOfSuccessRows = 2;
         int expectedSizeOfErrorsRows = 1;
 
         List<Integer> expectedSuccessRows = List.of(2, 4);
         List<Integer> expectedErrorsRows = List.of(3);
-
-        String expectedName = "Doggy";
 
         // When
         MassLoadAnimalData data = service.parseExcelDocument(multipartFile);
@@ -108,7 +122,5 @@ class AnimalExcelParserServiceTest {
         assertIterableEquals(expectedSuccessRows, data.getSuccessRows());
         assertEquals(expectedSizeOfErrorsRows, data.getErrorRows().size());
         assertIterableEquals(expectedErrorsRows, data.getErrorRows());
-
-        assertEquals(expectedName, data.getAnimalDtos().get(0).getName());
     }
 }
