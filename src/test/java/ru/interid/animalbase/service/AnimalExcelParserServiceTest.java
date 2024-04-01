@@ -16,7 +16,7 @@ class AnimalExcelParserServiceTest {
     private final static AnimalExcelParserService service = new AnimalExcelParserService();
 
     @Test
-    void WhenInvalidDocumentFormatThenReturnErrorMessage() throws IOException {
+    void whenInvalidDocumentFormatThenReturnErrorMessage() throws IOException {
 
         // Given
         String fileName = "invalidFormat.txt";
@@ -33,7 +33,7 @@ class AnimalExcelParserServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"invalidColumns_1.xlsx", "invalidColumns_2.xlsx", "invalidColumns_3.xlsx"})
-    void WhenInvalidColumnsThenReturnErrorMessage(String fileName) throws IOException {
+    void whenInvalidColumnsThenReturnErrorMessage(String fileName) throws IOException {
 
         // Given
         MultipartFile multipartFile = new MockMultipartFile(fileName, this.getClass().getClassLoader()
@@ -48,7 +48,7 @@ class AnimalExcelParserServiceTest {
     }
 
     @Test
-    void WhenInvalidHeadersThenReturnErrorMessage() throws IOException {
+    void whenInvalidHeadersThenReturnErrorMessage() throws IOException {
 
         // Given
         final MultipartFile multipartFile = new MockMultipartFile("invalidHeaders.xlsx", this.getClass().getClassLoader()
@@ -63,7 +63,7 @@ class AnimalExcelParserServiceTest {
     }
 
     @Test
-    void WhenEmptyHeaderThenReturnErrorMessage() throws IOException {
+    void whenEmptyHeaderThenReturnErrorMessage() throws IOException {
 
         // Given
         final MultipartFile multipartFile = new MockMultipartFile("emptyHeader.xlsx", this.getClass().getClassLoader()
@@ -79,7 +79,7 @@ class AnimalExcelParserServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"validDocument_1.xlsx", "validDocument_2.xlsx"})
-    void WhenValidDocumentThenReturnSuccessRows(String fileName) throws IOException {
+    void whenValidDocumentThenReturnSuccessRows(String fileName) throws IOException {
 
         // Given
         final MultipartFile multipartFile = new MockMultipartFile(fileName, this.getClass().getClassLoader()
@@ -101,7 +101,7 @@ class AnimalExcelParserServiceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"validAndInvalidCells.xlsx", "emptyRow.xlsx"})
-    void WhenValidAndInvalidCellsThenReturnSuccessRowsAndErrorRows(String fileName) throws IOException {
+    void whenValidAndInvalidCellsThenReturnSuccessRowsAndErrorRows(String fileName) throws IOException {
 
         // Given
         final MultipartFile multipartFile = new MockMultipartFile(fileName,
