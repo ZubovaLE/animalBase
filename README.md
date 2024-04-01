@@ -23,7 +23,7 @@ Spring Boot. Иные требования к библиотекам и техн
 + Maven
 + PostgreSQL
 
-### Используемые библиотеки:
+### Используемый стек технологий:
 
 + Spring Boot
 + Spring Data
@@ -32,8 +32,15 @@ Spring Boot. Иные требования к библиотекам и техн
 + Mapstruct
 + Jpa
 + JUnit 5
++ Mockito
 + Liquibase
 + Thymeleaf
+
+В PostgreSQL создана база данных "animals" (при отсутствии необходимо создать), создание таблиц осуществляется с помощью
+liquibase.
+
+Сервисы, мапперы, дто покрыты тестами:
+![ScreenShot](images/tests.png)
 
 Главная страница:
 ![ScreenShot](images/0_main_page.png)
